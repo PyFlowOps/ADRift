@@ -5,6 +5,8 @@ set -eo pipefail
 BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 BASEDIR="${BASE}/.."
 _GROUP=$(groups | awk -F' ' '{print $1}')
+_PYVER="$(python --version | awk '{print $2}')"
+_VIRENVVER="python${_PYVER}"
 
 asdf_plugin_add()
 {
@@ -75,9 +77,9 @@ python_installation()
 {
     python -m pip install --upgrade pip
     python -m pip install -r "${BASE}/python.txt"
-    python -m virtualenv --python=python3.11 "${BASEDIR}/dev/.python"
-    "${BASEDIR}"/dev/.python/bin/pip install --upgrade pip
-    "${BASEDIR}"/dev/.python/bin/python -m pip install -r requirements.txt
+    python -m virtualenv --python=${_VIRENVVER} "${BASEDIR}/.python"
+    "${BASEDIR}"/.python/bin/pip install --upgrade pip
+    "${BASEDIR}"/.python/bin/pip install -r requirements.txt
 }
 
 completed()

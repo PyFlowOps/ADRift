@@ -12,7 +12,7 @@ default:
 ##@ Section 1: Local Build Commands
 .PHONY: install
 install: ##@repo Installs needed prerequisites and software to develop in the SRE space
-	$(info ********** Installing SRE Repo Prerequisites **********)
+	$(info ********** Installing ADRift Repo Prerequisites **********)
 	@brew bundle --force
 	@pipx ensurepath
 	@bash scripts/install.sh -a
@@ -21,14 +21,21 @@ install: ##@repo Installs needed prerequisites and software to develop in the SR
 
 ##@ Section 2: Application Build/Deploy Commands
 .PHONY: run build api-key
-build: ##app Build the Application
+build: ##@app Build the Application
 	$(info ******** Installing the UI ********)
-	@bash -c "python -m pip install --upgrade pip && python -m pip install -r requirements.txt"
-	@bash -c "python -m poetry install"
+	@bash -c "./.python/bin/pip install --upgrade pip && ./.python/bin/pip install -r requirements.txt"
+	@bash -c "./.python/bin/poetry add poetry-plugin-export"
+	@bash -c "./.python/bin/poetry install"
+	@bash -c "./.python/bin/poetry config warnings.export false"
+	@bash -c "./.python/bin/poetry export -f requirements.txt --output docker/production.txt --without-hashes"
 
-run: ##app Start the UI server
+build-docker: ##@app Build the Docker Image for the Application
+	$(info ******** Building the Docker Image ********)
+	@docker build -t adrift:latest -f docker/Dockerfile .
+	
+run: ##@app Start the UI server
 	$(info ******** Running the UI ********)
-	@bash -c "python -m poetry run streamlit run ${project}/${entrypoint}"
+	@bash -c "./.python/bin/poetry run streamlit run ${project}/${entrypoint}"
 
 api-key: ##@app Set the API Key for the project
 	$(info ********** Setting the API Key **********)
