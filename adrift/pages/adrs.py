@@ -39,4 +39,3 @@ def create_form():
 
         if submitted:
             st.write("ADR Title", adr_title)
-

@@ -1,9 +1,5 @@
 import os
-import json
-import time
-import uuid
-import requests
-import threading
+#import threading
 import streamlit as st
 import extra_streamlit_components as stx
 import pandas as pd
@@ -20,10 +16,18 @@ st.set_page_config(layout="wide")
 BASE = os.path.abspath(os.path.dirname(__file__))
 toml_location = os.path.join(BASE, ".streamlit")
 
+logo_path = os.path.join(BASE, "images", "FullLogo_Transparent_crop.png") # Full logo for the app
+icon_path = os.path.join(BASE, "images", "IconOnly_Transparent_crop.png") # Smaller, square icon for when sidebar is closed
+
+st.logo(
+    logo_path,
+    link="https://github.com/PyFlowOps", # Optional: URL to link to when logo is clicked
+    icon_image=icon_path, # Optional: Smaller image for when sidebar is closed
+    size="large" # "small", "medium", or "large"
+)
+
 # Let's set the configuration(s)
 app_config = AppConfig()
-
-#st.logo("logo.png") # This is the logo for the app
 
 # Let's set the asynchonous function
 #t1 = threading.Thread(function)
