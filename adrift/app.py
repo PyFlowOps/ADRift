@@ -1,13 +1,13 @@
 import os
 #import threading
 import streamlit as st
-import extra_streamlit_components as stx
+#import extra_streamlit_components as stx
 import pandas as pd
-from streamlit_dynamic_filters import DynamicFilters
+#from streamlit_dynamic_filters import DynamicFilters
 
 from config.app import Config as AppConfig
-from st_pages import Page, Section, add_page_title, get_nav_from_toml
-from components.tables import table_container, two_table_container
+#from st_pages import Page, Section, add_page_title, get_nav_from_toml
+#from components.tables import table_container, two_table_container
 
 from pages import adrs, configuration, home
 
@@ -35,7 +35,8 @@ app_config = AppConfig()
 
 def main():
     # Pages
-    main_home = st.Page(home.main_home, title="Home")
+    main_home = st.Page(home.main_home, title="ADRs")
+    #main_home = st.Page(home.main_home, title="Home")
     create_adr = st.Page(adrs.create_form, title="Create ADR")
     
     # Configuration for the application

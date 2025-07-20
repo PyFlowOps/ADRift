@@ -2,6 +2,13 @@ api:
     port: 8000
     host: 127.0.0.1
 app:
+    pages:
+        - home: Home
+          title: ADRs
+          configuration: Configuration
+          tabs: false
+
+
     tabs:
         tab-0:
             id: 0
@@ -35,6 +42,8 @@ app:
             type: table
             number_of_tables: 2
             number_of_cols: 3
+
+
 configuration:
     tabs:
         tab-0:

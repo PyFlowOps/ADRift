@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: adrift
+  namespace: local  # Sets Namespace
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: adrift
+  ports:
+    - protocol: TCP
+      port: 8501
+      targetPort: 8501

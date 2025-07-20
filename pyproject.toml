@@ -18,6 +18,8 @@ streamlit-dynamic-filters = "^0.1.9"
 streamlit-multipage = "^0.0.18"
 psycopg2-binary = "^2.9.10"
 poetry-plugin-export = "^1.9.0"
+streamlit-awesome-table = "^0.0.1"
+pandas = "^2.3.1"
 
 [build-system]
 requires = ["poetry-core"]

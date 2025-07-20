@@ -12,6 +12,7 @@ from streamlit_dynamic_filters import DynamicFilters
 from config.app import Config as AppConfig
 from st_pages import Page, add_page_title
 from components.tables import table_container, two_table_container
+from config.data import ADR
 
 # Let's set the configuration(s)
 app_config = AppConfig()
@@ -21,11 +22,13 @@ def create_form():
     st.title("Create ADR Form")
     st.write("Use this form to create an ADR")
 
-
     with st.form("my_form"):
         _date = datetime.date.today().strftime('%d, %b %Y')
-        adr_title = st.text_input("ADR Title")
+
         st.write("Created Date: ", _date)
+        title = st.text_input("ADR Title")
+        created_date = _date
+        modified_date = _date # If there is a modification, this will be updated
         status = st.selectbox("Status", ("proposed", "rejected", "deprecated", "accepted", "superseded"))
         decision_makers = st.multiselect("Decision Makers", ["Person 1", "Person 2", "Person 3"])
         consulted = st.multiselect("Consulted", ["Person 1", "Person 2", "Person 3"])
@@ -38,4 +41,19 @@ def create_form():
         submitted = st.form_submit_button("Create ADR")
 
         if submitted:
-            st.write("ADR Title", adr_title)
+            try:
+                _adr = ADR(
+                    title=title,
+                    status=status,
+                    decision_makers=decision_makers,
+                    consulted=consulted,
+                    informed=informed,
+                    context=context,
+                    decision=decision,
+                    consequences=consequences,
+                    modified_date=modified_date,
+                    created_date=created_date,
+                )
+                st.write("ADR Title", _adr.title)
+            except Exception as e:
+                st.error(f"Error creating ADR: {e}")

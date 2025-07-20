@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: local
+  name: adrift
+  labels:
+    app: adrift
+data:
+  APP_NAME: adrift
