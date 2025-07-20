@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: local
-  name: ut-postgres-config
+  namespace: adrift
+  name: postgres-config
   labels:
-    name: ut-postgres-config
-    app: ut-postgres
+    name: postgres-config
+    app: postgres
     app.kubernetes.io/component: database
 data:
-  POSTGRES_HOST: ut-postgres
+  POSTGRES_HOST: postgres
   POSTGRES_PORT: "5432"
   POSTGRES_HOST_AUTH_METHOD: trust
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: local
-  name: ut-postgres-config-files
+  namespace: adrift
+  name: postgres-config-files
   labels:
-    name: ut-postgres-config-files
-    app: ut-postgres
+    name: postgres-config-files
+    app: postgres
     app.kubernetes.io/component: database
 data:
   postgres.conf: |-

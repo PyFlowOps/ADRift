@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/name: adrift
   name: adrift
-  namespace: local  # Sets Namespace
+  namespace: adrift  # Sets Namespace
 spec:
   selector:
     matchLabels:

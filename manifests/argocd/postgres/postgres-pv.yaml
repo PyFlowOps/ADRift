@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: ut-postgres-pv  # Sets PV's name
-  namespace: local  # Sets Namespace
+  name: postgres-pv  # Sets PV's name
+  namespace: adrift  # Sets Namespace
   labels:
-    name: ut-postgres-pv
+    name: postgres-pv
     type: local  # Sets PV's type to local
-    app: ut-postgres
-    app.kubernetes.io/name: ut-postgres-pv
+    app: postgres
+    app.kubernetes.io/name: postgres-pv
 spec:
   storageClassName: local-storage
   claimRef:
-    name: ut-postgres-pvc
+    name: postgres-pvc
     namespace: local
   volumeMode: Filesystem
   capacity:

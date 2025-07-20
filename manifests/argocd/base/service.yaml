@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: adrift
-  namespace: local  # Sets Namespace
+  namespace: adrift  # Sets Namespace
 spec:
   type: ClusterIP
   selector:

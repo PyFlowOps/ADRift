@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: local  # Sets Namespace
+  namespace: adrift  # Sets Namespace
   name: postgres-pvc # Sets name of PVC
   labels:
     name: postgres-pvc
