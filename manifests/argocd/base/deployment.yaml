@@ -21,22 +21,26 @@ spec:
           # Enironment Vars from Secrets examples
           env:
             - name: APP_NAME
-              value: adrift
+              valueFrom:
+                configMapKeyRef:
+                  name: adrift
+                  key: APP_NAME
+
             # Postgres
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: secret
+                  name: postgres-secret
                   key: POSTGRES_DB
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: secret
+                  name: postgres-secret
                   key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: secret
+                  name: postgres-secret
                   key: POSTGRES_PASSWORD
             - name: DATABASE_URL
               value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_DB_SERVICE_HOST):$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)
