@@ -23,40 +23,36 @@ spec:
           image: postgres:15.2 # Sets Image
           imagePullPolicy: "IfNotPresent"
           ports:
-            - containerPort: 5432  # Exposes container port
+          - containerPort: 5432  # Exposes container port
           env:
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_DB
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_USER
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-secret
-                  key: POSTGRES_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_DB
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: POSTGRES_PASSWORD
           envFrom:
             - configMapRef:
                 name: postgres-config
           volumeMounts:
-            - name: postgres-pv
-              mountPath: /var/lib/postgresql/data
-            #- name: ut-postgres-pg-hba-config
-            #  mountPath: /var/lib/postgresql/data
-            #  subPath: pg_hba.conf
-            #  readOnly: true
+          - name: postgres-pv
+            mountPath: /var/lib/postgresql/data
       volumes:
-        - name: postgres-pv
-          persistentVolumeClaim:
-            claimName: postgres-pvc        
-        - name: postgres-pg-hba-config
-          configMap:
-            name: postgres-config-files
-            items:
-              - key: pg_hba.conf
-                path: pg_hba.conf
+      - name: postgres-pv
+        persistentVolumeClaim:
+          claimName: postgres-pvc        
+      - name: postgres-pg-hba-config
+        configMap:
+          name: postgres-config-files
+          items:
+            - key: pg_hba.conf
+              path: pg_hba.conf

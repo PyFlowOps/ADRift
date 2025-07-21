@@ -12,7 +12,7 @@ spec:
   storageClassName: local-storage
   claimRef:
     name: postgres-pvc
-    namespace: local
+    namespace: adrift
   volumeMode: Filesystem
   capacity:
     storage: 2Gi # Sets PV Volume
