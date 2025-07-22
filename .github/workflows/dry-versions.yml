@@ -1,5 +1,3 @@
-name: Manual Toml Version Check
-
 on:
   workflow_call:
     outputs:

@@ -1,4 +1,4 @@
-requirements.txt
+#requirements.txt
 README.md
 Makefile
 Dockerfile
@@ -10,7 +10,7 @@ maniftests/
 .dockerignore
 temp/
 site/
-pyproject.toml
-poetry.lock
+#pyproject.toml
+#poetry.lock
 .python/
 .github/
