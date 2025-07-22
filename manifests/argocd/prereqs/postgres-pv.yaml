@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv  # Sets PV's name
+  namespace: adrift  # Sets Namespace
+  labels:
+    name: postgres-pv
+    type: local  # Sets PV's type to local
+    app: postgres
+    app.kubernetes.io/name: postgres-pv
+spec:
+  storageClassName: local-storage
+  claimRef:
+    name: postgres-pvc
+    namespace: adrift
+  volumeMode: Filesystem
+  capacity:
+    storage: 2Gi # Sets PV Volume
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"  # Sets PV's path
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - local-worker
+          - local-worker2
+          - local-worker3

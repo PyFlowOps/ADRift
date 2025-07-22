@@ -1,0 +1,9 @@
+[[pages]]
+path = "app.py"
+name = "Adrift"
+#icon = ""
+
+[[pages]]
+path = "views/adrs.py"
+name = "ADRs"
+#icon = ""

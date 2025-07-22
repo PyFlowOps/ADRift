@@ -1,0 +1,84 @@
+api:
+    port: 8000
+    host: 127.0.0.1
+app:
+    pages:
+        - home: Home
+          title: ADRs
+          configuration: Configuration
+          tabs: false
+
+
+    tabs:
+        tab-0:
+            id: 0
+            name: tab-0
+            title: Main Tab
+            description: This is the main tab, this data comes from the config file.
+            type: table
+            number_of_tables: 1
+            number_of_cols: 3
+        tab-1:
+            id: 1
+            name: tab-1
+            title: Tab 2
+            description: This is the second tab, this data comes from the config file.
+            type: table
+            number_of_tables: 2
+            number_of_cols: 3
+        tab-2:
+            id: 2
+            name: tab-2
+            title: Tab 3
+            description: This is the third tab, this data comes from the config file.
+            type: table
+            number_of_tables: 1
+            number_of_cols: 3
+        tab-3:
+            id: 3
+            name: tab-3
+            title: Tab 4
+            description: This is the fourth tab, this data comes from the config file.
+            type: table
+            number_of_tables: 2
+            number_of_cols: 3
+
+
+configuration:
+    tabs:
+        tab-0:
+            id: 0
+            name: tab-0
+            title: Database Configuration
+            description: Datbabase configurations.
+            type: form
+        tab-1:
+            id: 1
+            name: tab-1
+            title: Tab 2
+            description: This is the second tab, this data comes from the config file.
+            type: table
+            number_of_tables: 2
+            number_of_cols: 3
+        tab-2:
+            id: 2
+            name: tab-2
+            title: Tab 3
+            description: This is the third tab, this data comes from the config file.
+            type: table
+            number_of_tables: 1
+            number_of_cols: 3
+        tab-3:
+            id: 3
+            name: tab-3
+            title: Tab 4
+            description: This is the fourth tab, this data comes from the config file.
+            type: table
+            number_of_tables: 2
+            number_of_cols: 3
+# Database Configuration Section
+# See database.env for credentials, etc.
+database:
+    dbms: postgresql
+    host: localhost
+    port: 5432

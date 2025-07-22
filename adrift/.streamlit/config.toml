@@ -1,0 +1,12 @@
+# #01010ad9 -- # https://rgbacolorpicker.com/hex-to-rgba
+# rgba(1, 1, 10, 0.85) -- # https://rgbacolorpicker.com/rgba-to-hex
+[theme]
+base="dark"
+primaryColor="#4e6796"
+backgroundColor="#000000"
+secondaryBackgroundColor="#282828"
+textColor="#b5b5b5"
+linkColor="#5c95ff"
+
+[fonts]
+font="sans serif"

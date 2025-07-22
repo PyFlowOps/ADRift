@@ -1,0 +1,16 @@
+tap "homebrew/bundle"
+tap "buo/cask-upgrade"
+tap "dopplerhq/cli"
+
+brew "dopplerhq/cli/doppler"
+brew "python"
+brew "adr-tools"
+brew "asdf"
+brew "gh"
+brew "pipx"
+brew "gnupg"
+brew "sops"
+brew "pulumi"
+
+cask "gpg-suite"
+#cask "warp"

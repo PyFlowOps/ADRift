@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  labels:
+    name: postgres
+    app: postgres
+  namespace: adrift # Sets Namespace
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  serviceName: postgres # Must match the Service name below
+  replicas: 1 # Start with 1 replica for a single PostgreSQL instance
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:   
+      - name: postgres
+        image: postgres:16.9 # Use a specific PostgreSQL image version
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432 # Default PostgreSQL port
+          name: postgres
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_DB
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret # Reference the Secret created above
+              key: POSTGRES_PASSWORD # Key within the Secret
+        envFrom:
+          - configMapRef:
+              name: postgres-config
+        volumeMounts:
+        - name: postgres-pv
+          mountPath: /var/lib/postgresql/data # Default data directory for PostgreSQL
+      volumes:
+      - name: postgres-pv
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+      - name: postgres-pg-hba-config
+        configMap:
+          name: postgres-config-files
+          items:
+            - key: pg_hba.conf
+              path: pg_hba.conf

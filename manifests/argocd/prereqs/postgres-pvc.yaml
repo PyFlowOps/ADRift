@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: adrift  # Sets Namespace
+  name: postgres-pvc # Sets name of PVC
+  labels:
+    name: postgres-pvc
+    app: postgres
+    type: local
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteMany  # Sets read and write access
+  resources:
+    requests:
+      storage: 2Gi  # Sets volume size
