@@ -7,6 +7,15 @@ set -eou pipefail
 # Namespace installation
 kubectl apply -f namespace.yaml
 
+# Check if the namespace was created successfully
+python -m pip install -r scripts/requirements.txt
+python scripts/patch-render.py # This gets the environment variables set up correctly for the ADRift application
+
+if [[ $? -ne 0 ]]; then
+    echo "[ERROR] - Failed to render ADRift application patches. Please check the script output."
+    exit 1
+fi
+
 # Let's get the prerequisites ready
 echo "[INFO] - Installing prerequisites..."
 kustomize build prereqs | kubectl apply -f - > /dev/null 2>&1 || true

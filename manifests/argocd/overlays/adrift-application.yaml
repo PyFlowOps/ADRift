@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adrift
+  namespace: argocd
+  annotations:
+    # 1. Enable image update for this application
+    argocd-image-updater.argoproj.io/enable: "true"
+
+    # 2. Define the image(s) to track (alias=registry/repository:tag-constraint)
+    #    Here 'my-app' is an alias for your image
+    #    Replace <AWS_ACCOUNT_ID> and <REGION> with your details
+    #    <IMAGE_NAME> is the name of your ECR repository (e.g., pyops/adrift)
+    #    ':latest' here is the *initial* tag in your Git repo.
+    #    Image Updater will REPLACE this with the newest version.
+    # my-app=__AWS_ACCOUNT_ID__.dkr.ecr.__REGION__.amazonaws.com/__IMAGE_NAME__:latest
+    argocd-image-updater.argoproj.io/image-list: "" # This will be filled in by the patch
+
+    # 3. Specify the update strategy
+    #    - newest-build: Updates to the image with the most recent build date (reliable)
+    #    - digest: Updates to the latest digest for a given tag (e.g., 'latest')
+    #    - semver: For semantic versioned tags (e.g., 1.0.0, 1.0.1)
+    argocd-image-updater.argoproj.io/my-app.update-strategy: newest-build
+
+    # 4. Tell Image Updater where to write the new image tag/digest in your manifests
+    #    If using Helm, this is usually image.tag, image.repository or image.name
+    #    If your Helm chart has 'image: { repository: my-repo, tag: v1.0.0 }'
+    argocd-image-updater.argoproj.io/my-app.helm.image-spec: image.tag # Update the 'tag' field
+    # If your image name and tag are in different fields, you might need both:
+    # argocd-image-updater.argoproj.io/my-app.helm.image-name: image.repository
+    # argocd-image-updater.argoproj.io/my-app.helm.image-tag: image.tag
+
+    # 5. Git Write-Back Method (Highly Recommended)
+    #    This ensures the manifest in Git is updated.
+    #    Requires Git access credentials for Argo CD Image Updater (see Step 4 below).
+    argocd-image-updater.argoproj.io/write-back-method: git
+
+    # 6. Optional: Branch to commit to (default is the branch of the application source)
+    # argocd-image-updater.argoproj.io/git-branch: main
+
+    # 7. Optional: Commit message template
+    # argocd-image-updater.argoproj.io/git-commit-message: "Automated Image Update for {{.app.name}}: {{.image.image}}:{{.image.tag}}"
+
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/PyFlowOps/ADRift.git # Your Git repository
+    targetRevision: HEAD
+    path: k8s/manifests # Or your helm chart path
+    # If using Helm, specify values file and params:
+    # helm:
+    #   valueFiles:
+    #     - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: my-app-namespace # Your application's namespace
+  syncPolicy:
+    automated: # Enable auto-sync for immediate deployments
+      prune: true
+      selfHeal: true

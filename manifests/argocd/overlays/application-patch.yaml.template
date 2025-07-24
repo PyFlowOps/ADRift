@@ -1,0 +1,14 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: adrift
+  namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: my-app=<AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<IMAGE_NAME>:latest
+spec:
+  project: pyflowops  # Minimal required field
+  source:
+    repoURL: ""  # Minimal required field
+  destination:
+    server: ""  # Minimal required field

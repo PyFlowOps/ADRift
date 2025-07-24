@@ -44,6 +44,22 @@ spec:
                   key: POSTGRES_PASSWORD
             - name: DATABASE_URL
               value: postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_DB_SERVICE_HOST):$(POSTGRES_DB_SERVICE_PORT)/$(POSTGRES_DB)
+
+            - name: AWS_ACCOUNT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: AWS_ACCOUNT_ID
+            - name: REGION
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: REGION
+            - name: IMAGE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: secret
+                  key: IMAGE_NAME
           ports:
             - containerPort: 8501
           resources:
