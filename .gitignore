@@ -8,6 +8,7 @@ __pycache__/
 /delete
 **/production.txt
 manifests/argocd/overlays/application-patch.yaml
+manifests/argocd/base/deployment-patch.yaml
 
 # C extensions
 *.so

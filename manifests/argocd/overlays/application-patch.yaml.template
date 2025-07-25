@@ -5,10 +5,10 @@ metadata:
   name: adrift
   namespace: argocd
   annotations:
-    argocd-image-updater.argoproj.io/image-list: my-app=<AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<IMAGE_NAME>:latest
+    argocd-image-updater.argoproj.io/image-list: adrift=<AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<IMAGE_NAME>:latest
 spec:
   project: pyflowops  # Minimal required field
   source:
-    repoURL: ""  # Minimal required field
+    repoURL: "https://github.com/PyFlowOps/ADRift.git"  # Minimal required field
   destination:
-    server: ""  # Minimal required field
+    server: "https://kubernetes.default.svc"  # Minimal required field

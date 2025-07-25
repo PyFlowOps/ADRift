@@ -5,8 +5,15 @@ set -eou pipefail
 
 echo "[INFO] - Removing ADRift and its dependencies..."
 
-# This script assumes that kubectl and kustomize are installed and configured.
-echo "[INFO] - Removing PostgreSQL Service and its dependencies..."
-kubectl delete namespace adrift > /dev/null 2>&1
+# Let's remove ADRift
+echo "[INFO] - Removing Postgres Persistent Volume Claim..."
+kubectl delete pvc postgres-pvc -n adrift > /dev/null 2>&1 || true
 
+echo "[INFO] - Removing Postgres Persistent Volume..."
+kubectl delete pv postgres-pv -n adrift > /dev/null 2>&1 || true
+
+echo "[INFO] - Removing 'adrift' namespace..."
+kubectl delete namespace adrift > /dev/null 2>&1 || true
+
+kubectl delete application adrift -n argocd > /dev/null 2>&1 || true
 echo "[INFO] - Removed ADRift and its dependencies..."

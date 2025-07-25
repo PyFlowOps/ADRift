@@ -1,3 +1,6 @@
+# This script patches the ArgoCD application manifest to include environment variables
+# for the argocd-image-updater annotation.
+# This also adds the correct image into the application manifest (deployment).
 import os
 import yaml
 from dotenv import load_dotenv
@@ -12,6 +15,7 @@ if os.path.exists(os.path.join(MAIN, '.env')):
     # Load environment variables from .env file if it exists
     load_dotenv(os.path.join(MAIN, '.env'))
 
+
 def prereq_check():
     """
     Check if the required environment variables are set.
@@ -22,9 +26,13 @@ def prereq_check():
             print(f"Required environment variable '{var}' is not set.")
             exit(1)
 
-if __name__ == "__main__":
-    prereq_check() # Check prerequisites
-    # Now we can safely import the rest of the modules 
+
+def render_application_patch():
+    """
+    Render the application patch by replacing placeholders with environment variables.
+    """
+    if os.path.exists(os.path.join(MAIN, 'overlays', 'application-patch.yaml')):
+        os.remove(os.path.join(MAIN, 'overlays', 'application-patch.yaml'))
 
     with open(os.path.join(MAIN, 'overlays', 'application-patch.yaml.template'), 'r') as file:
         adrift_application_data = yaml.safe_load(file)
@@ -42,3 +50,36 @@ if __name__ == "__main__":
     # Write the updated annotations back to the file
     with open(os.path.join(MAIN, 'overlays', 'application-patch.yaml'), 'w') as file:
         yaml.safe_dump(adrift_application_data, file, default_flow_style=False)
+
+
+def render_deployment_patch():
+    """
+    Render the deployment patch by replacing placeholders with environment variables.
+    """
+    if os.path.exists(os.path.join(MAIN, 'base', 'deployment-patch.yaml')):
+        os.remove(os.path.join(MAIN, 'base', 'deployment-patch.yaml'))
+
+    with open(os.path.join(MAIN, 'base', 'deployment-patch.yaml.template'), 'r') as file:
+        adrift_deployment_data = yaml.safe_load(file)
+
+    # We need to augment the image field in the deployment spec
+    containers = adrift_deployment_data.get('spec', {}).get('template', {}).get('spec', {}).get('containers', [])
+    
+    for container in containers:
+        if container.get('name') == 'adrift':
+            container['image'] = f"{os.environ['AWS_ACCOUNT_ID']}.dkr.ecr.{os.environ['REGION']}.amazonaws.com/{os.environ['IMAGE_NAME']}:latest"
+
+    # Write the updated deployment data back to the file
+    with open(os.path.join(MAIN, 'base', 'deployment-patch.yaml'), 'w') as file:
+        yaml.safe_dump(adrift_deployment_data, file, default_flow_style=False)
+
+
+if __name__ == "__main__":
+    prereq_check() # Check prerequisites
+    
+    # Now we can safely import the rest of the modules 
+    render_application_patch() # Render the application patch
+    render_deployment_patch() # Render the deployment patch
+    print("[INFO] - Application patch rendered successfully.")
+
+    

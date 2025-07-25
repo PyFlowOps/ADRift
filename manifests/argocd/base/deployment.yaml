@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: adrift
-          image: ghcr.io/pyflowops/adrift:local
-          imagePullPolicy: Never  # The image is pre-loaded using 'kind load docker-image'
+          image: adrift/adrift:latest  # This will be replaced by the deployment patch
+          imagePullPolicy: Always  # IfNotPresent, The image is pre-loaded using 'kind load docker-image'
           # Enironment Vars from Secrets examples
           env:
             - name: APP_NAME
@@ -25,7 +25,6 @@ spec:
                 configMapKeyRef:
                   name: adrift
                   key: APP_NAME
-
             # Postgres
             - name: POSTGRES_DB
               valueFrom:

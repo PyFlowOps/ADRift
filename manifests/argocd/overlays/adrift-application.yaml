@@ -46,14 +46,14 @@ spec:
   source:
     repoURL: https://github.com/PyFlowOps/ADRift.git # Your Git repository
     targetRevision: HEAD
-    path: k8s/manifests # Or your helm chart path
+    path: manifests/argocd/overlays # Or your helm chart path
     # If using Helm, specify values file and params:
     # helm:
     #   valueFiles:
     #     - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: my-app-namespace # Your application's namespace
+    namespace: adrift # Your application's namespace
   syncPolicy:
     automated: # Enable auto-sync for immediate deployments
       prune: true
