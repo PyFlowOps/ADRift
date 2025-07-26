@@ -11,6 +11,8 @@ kubectl apply -f namespace.yaml
 python -m pip install -r scripts/requirements.txt
 python scripts/patch-render.py # This gets the environment variables set up correctly for the ADRift application
 
+python scripts/secret-render.py --aws # This renders the ADRift secret file with the correct values | this project uses AWS credentials
+
 if [[ $? -ne 0 ]]; then
     echo "[ERROR] - Failed to render ADRift application patches. Please check the script output."
     exit 1
