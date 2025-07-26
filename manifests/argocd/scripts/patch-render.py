@@ -81,5 +81,3 @@ if __name__ == "__main__":
     render_application_patch() # Render the application patch
     render_deployment_patch() # Render the deployment patch
     print("[INFO] - Application patch rendered successfully.")
-
-    
