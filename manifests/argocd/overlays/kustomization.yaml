@@ -3,3 +3,8 @@ kind: Kustomization
 resources:
 - ../base/
 - adrift-ingressroute.yaml
+- adrift-application.yaml
+
+#patchesStrategicMerge:
+patches:
+- path: application-patch.yaml

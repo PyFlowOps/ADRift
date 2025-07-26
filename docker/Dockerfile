@@ -1,4 +1,19 @@
-FROM python:3.13-alpine
+### Stage 1: Build stage to export requirements.txt
+FROM python:3.13-alpine3.22 AS poetry-export-stage
+
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock requirements.txt ./
+
+# Install Poetry (using recommended official installer)
+RUN pip install -r /app/requirements.txt
+
+# Export dependencies to requirements.txt
+RUN poetry self add poetry-plugin-export
+RUN poetry export --output production.txt --format requirements.txt --without-hashes
+
+### Stage 2: Production stage
+FROM python:3.13-alpine3.22
 
 ARG user=adr
 ARG group=pyops
@@ -24,6 +39,10 @@ RUN addgroup ${group}
 RUN adduser -D ${user} -G ${group}
 
 WORKDIR /app
+
+# Copy only the requirements.txt from the build stage
+COPY --from=poetry-export-stage /app/production.txt /app/docker/production.txt
+
 COPY . .
 RUN chown -R ${user}:${group} /app \
     && chmod 755 /app/docker/entrypoint.sh

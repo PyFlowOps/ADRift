@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adrift
+  namespace: adrift
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: adrift
+  template:
+    spec:
+      containers:
+      - name: adrift
+        image: <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/<IMAGE_NAME>:latest
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "64Mi"
